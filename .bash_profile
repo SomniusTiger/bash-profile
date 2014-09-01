@@ -1,3 +1,5 @@
+## GIT & DEVELOPMENT HAPPINESS ##
+
 # --------------------
 # Colors for the prompt
 # --------------------
@@ -64,19 +66,12 @@ style_branch="${RED}"
 
 source ~/.profile
 
-# Open files from terminal with sublime
-export PATH=/bin:/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin:$PATH
-export EDITOR='subl'
-
-# Hilarious SUDO alias
-alias fucking='sudo'
-
-## GIT & DEVELOPMENT HAPPINESS ##
-
 # Auto-complete git commands and branch names
 source /Applications/Xcode.app/Contents/Developer/usr/share/git-core/git-completion.bash
 source /Applications/Xcode.app/Contents/Developer/usr/share/git-core/git-prompt.sh
 GIT_PS1_SHOWDIRTYSTATE=true
+
+# Define how the prompt is styled. Colorizes the directory path & git branch, puts your commands on a new line
 export PS1='${style_user}\u${style_chars}@\h:${style_path}\w${style_branch}$(__git_ps1)${style_chars}\n∞${RESET} '
 
 # Auto-delete merged git branches
@@ -85,10 +80,40 @@ alias git_delete_merged="git branch --merged | grep -v '\*' | xargs -n 1 git bra
 # Auto-archive merged git branches
 alias git_archive_merged=""
 
-# Say "activated," then start a rails server
+# Say "activated," then start a rails server. Say "goodbye" on server stop.
 alias s="afplay ~/Documents/sounds/turret_activated.wav && rails s && afplay ~/Documents/sounds/turret_goodbye.wav"
 
 # Say "deploying," then deploy using Capistrano to production, then say "well done"
 alias cpd="afplay ~/Documents/sounds/turret_deploy.wav && cap production deploy && afplay ~/Documents/sounds/turret_welldone.wav"
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
+## NIFTY OSX SHORTCUTS ##
+
+# Open files from terminal with sublime
+export PATH=/bin:/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin:$PATH
+export EDITOR='subl'
+
+# Hilarious SUDO alias
+alias fucking='sudo'
+
+# Proper link to path
+export PATH=/usr/local/bin:$PATH
+
+# Quickly go to src folder
+alias www="cd /Users/Somnius/src"
+
+#Restart Finder
+alias killfinder="killall Finder"
+
+# Show/hide hidden files in Finder
+alias showhidden="defaults write com.apple.finder AppleShowAllFiles TRUE && killall Finder"
+alias hidehidden="defaults write com.apple.finder AppleShowAllFiles FALSE && killall Finder"
+
+# Disable/enable the background shadow in screenshots
+alias screenshadowoff="defaults write com.apple.screencapture disable-shadow -bool true && killall SystemUIServer"
+alias screenshadowon="defaults write com.apple.screencapture disable-shadow -bool false && killall SystemUIServer"
+
+# Disable/reenable Spotlight for Mac
+alias spotlightoff="sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.metadata.mds.plist"
+alias spotlighton="sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.metadata.mds.plist"
