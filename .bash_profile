@@ -72,23 +72,23 @@ if tput setaf 1 &> /dev/null; then
   UNDERLINE=$(tput sgr 0 1)
 else
   BLACK="\[\e[0;30m\]"
-  RED="\033[1;31m"
+  RED="\[\033[1;31m\]"
   ORANGE="\033[1;33m"
   GREEN="\033[1;32m"
   PURPLE="\033[1;35m"
-  WHITE="\033[1;37m"
+  WHITE="\[\033[1;37m\]"
   YELLOW="\[\e[0;33m\]"
   CYAN="\[\e[0;36m\]"
   BLUE="\[\e[0;34m\]"
   BOLD=""
-  RESET="\033[m"
+  RESET="\[\033[m\]"
 fi
 
 # Styles for cmd prompt
 
-style_user="${RESET}${WHITE}"
-style_path="${RESET}${CYAN}"
-style_chars="${RESET}${WHITE}"
+style_user="\[${RESET}${WHITE}\]"
+style_path="\[${RESET}${CYAN}\]"
+style_chars="\[${RESET}${WHITE}\]"
 style_branch="${RED}"
 
 # Auto-complete git commands and branch names
@@ -97,7 +97,12 @@ source /Applications/Xcode.app/Contents/Developer/usr/share/git-core/git-prompt.
 GIT_PS1_SHOWDIRTYSTATE=true
 
 # Define how the prompt is styled. Colorizes the directory path & git branch, puts your commands on a new line
-export PS1='${style_user}\u${style_chars}@\h:${style_path}\w${style_branch}$(__git_ps1)${style_chars}\n∞${RESET} '
+PS1="${style_user}\u"                    # Username
+PS1+="${style_path} \w"                  # Working directory
+PS1+="\$(prompt_git)"                    # Git details
+PS1+="\n"                                # Newline
+PS1+="${style_chars} ∞ \[${RESET}\]"    # $ (and reset color)
+# export PS1='${style_user}\u${style_chars}@\h:${style_path}\w${style_branch}$(__git_ps1)${style_chars}\n∞\[${RESET}\]" '
 
 # Auto-delete merged git branches
 alias git_delete_merged="git branch --merged | grep -v '\*' | xargs -n 1 git branch -d"
@@ -109,3 +114,52 @@ alias s="afplay ~/Documents/sounds/turret_activated.wav && rails s && afplay ~/D
 alias cpd="afplay ~/Documents/sounds/turret_deploy.wav && cap production deploy && afplay ~/Documents/sounds/turret_welldone.wav"
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
+# Long git to show + ? !
+is_git_repo() {
+  $(git rev-parse --is-inside-work-tree &> /dev/null)
+}
+is_git_dir() {
+  $(git rev-parse --is-inside-git-dir 2> /dev/null)
+}
+get_git_branch() {
+  local branch_name
+  # Get the short symbolic ref
+  branch_name=$(git symbolic-ref --quiet --short HEAD 2> /dev/null) ||
+  # If HEAD isn't a symbolic ref, get the short SHA
+  branch_name=$(git rev-parse --short HEAD 2> /dev/null) ||
+  # Otherwise, just give up
+  branch_name="(unknown)"
+  printf $branch_name
+}
+
+# Git status information
+prompt_git() {
+  local git_info git_state uc us ut st
+  if ! is_git_repo || is_git_dir; then
+      return 1
+  fi
+  git_info=$(get_git_branch)
+  # Check for uncommitted changes in the index
+  if ! $(git diff --quiet --ignore-submodules --cached); then
+      uc="+"
+  fi
+  # Check for unstaged changes
+  if ! $(git diff-files --quiet --ignore-submodules --); then
+      us="!"
+  fi
+  # Check for untracked files
+  if [ -n "$(git ls-files --others --exclude-standard)" ]; then
+      ut="${RED}?"
+  fi
+  # Check for stashed files
+  if $(git rev-parse --verify refs/stash &>/dev/null); then
+      st="$"
+  fi
+  git_state=$uc$us$ut$st
+  # Combine the branch name and state information
+  if [[ $git_state ]]; then
+      git_info="$git_info${RESET}[$git_state${RESET}]"
+  fi
+  printf "${WHITE} on ${style_branch}${git_info}"
+}
