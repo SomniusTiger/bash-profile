@@ -84,9 +84,24 @@ else
   RESET="\[\033[m\]"
 fi
 
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
+# ---------------------
+# Print Stats on terminal load
+# ---------------------
+echo
+echo Welcome, Somnius.
+echo "------------------------------------------"
+echo $(ruby -v)
+echo $(rails -v)
+echo $(git --version)
+echo $(brew -v)
+echo "------------------------------------------"
+echo
+
 # Styles for cmd prompt
 
-style_user="\[${RESET}${WHITE}\]"
+style_date="\[${RESET}${YELLOW}\]"
 style_path="\[${RESET}${CYAN}\]"
 style_chars="\[${RESET}${WHITE}\]"
 style_branch="${RED}"
@@ -97,12 +112,11 @@ source /Applications/Xcode.app/Contents/Developer/usr/share/git-core/git-prompt.
 GIT_PS1_SHOWDIRTYSTATE=true
 
 # Define how the prompt is styled. Colorizes the directory path & git branch, puts your commands on a new line
-PS1="${style_user}\u"                    # Username
-PS1+="${style_path} \w"                  # Working directory
-PS1+="\$(prompt_git)"                    # Git details
-PS1+="\n"                                # Newline
-PS1+="${style_chars} ∞ \[${RESET}\]"    # $ (and reset color)
-# export PS1='${style_user}\u${style_chars}@\h:${style_path}\w${style_branch}$(__git_ps1)${style_chars}\n∞\[${RESET}\]" '
+PS1="${style_date}\D{%F %T}"              # Timestamp
+PS1+="${style_path} \w"                   # Working directory
+PS1+="\$(prompt_git)"                     # Git details
+PS1+="\n"                                 # Newline
+PS1+="${style_chars} ∞ \[${RESET}\]"      # $ (and reset color)
 
 # Auto-delete merged git branches
 alias git_delete_merged="git branch --merged | grep -v '\*' | xargs -n 1 git branch -d"
@@ -112,8 +126,6 @@ alias s="afplay ~/Documents/sounds/turret_activated.wav && rails s && afplay ~/D
 
 # Say "deploying," then deploy using Capistrano to production, then say "well done"
 alias cpd="afplay ~/Documents/sounds/turret_deploy.wav && cap production deploy && afplay ~/Documents/sounds/turret_welldone.wav"
-
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
 # Long git to show + ? !
 is_git_repo() {
