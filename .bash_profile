@@ -77,9 +77,6 @@ export PS1='${style_user}\u${style_chars}@\h:${style_path}\w${style_branch}$(__g
 # Auto-delete merged git branches
 alias git_delete_merged="git branch --merged | grep -v '\*' | xargs -n 1 git branch -d"
 
-# Auto-archive merged git branches
-alias git_archive_merged=""
-
 # Say "activated," then start a rails server. Say "goodbye" on server stop.
 alias s="afplay ~/Documents/sounds/turret_activated.wav && rails s && afplay ~/Documents/sounds/turret_goodbye.wav"
 
