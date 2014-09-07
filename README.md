@@ -1,6 +1,8 @@
 bash-profile
 ============
 
+<img src="https://dl.dropboxusercontent.com/u/22285634/public_images/bash-profile.png" width="100%" />
+
 Custom .bash_profile which customizes how my terminal looks.
 
 Mainly adjusts colors of certain things (file directory, git branch) but also plays sounds when some aliases are used. 
