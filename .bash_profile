@@ -90,7 +90,7 @@ fi
 # Print Stats on terminal load
 # ---------------------
 echo
-echo Welcome, Somnius.
+echo "Welcome, $(whoami)."
 echo "------------------------------------------"
 echo $(ruby -v)
 echo $(rails -v)
