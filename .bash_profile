@@ -86,22 +86,10 @@ fi
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
-# ---------------------
-# Print Stats on terminal load
-# ---------------------
-echo
-echo "Welcome, $(whoami)."
-echo "------------------------------------------"
-echo $(ruby -v)
-echo $(rails -v)
-echo $(git --version)
-echo $(brew -v)
-echo "------------------------------------------"
-echo
-
 # Styles for cmd prompt
 
-style_date="\[${RESET}${YELLOW}\]"
+style_user="\[${RESET}${YELLOW}\]"
+style_box="\[${RESET}${ORANGE}\]"
 style_path="\[${RESET}${CYAN}\]"
 style_chars="\[${RESET}${WHITE}\]"
 style_branch="${RED}"
@@ -112,7 +100,10 @@ source /Applications/Xcode.app/Contents/Developer/usr/share/git-core/git-prompt.
 GIT_PS1_SHOWDIRTYSTATE=true
 
 # Define how the prompt is styled. Colorizes the directory path & git branch, puts your commands on a new line
-PS1="${style_date}\D{%F %T}"              # Timestamp
+PS1="${style_user} \u"                    # Username
+PS1+="${style_chars} at"
+PS1+="${style_box} \h"                    # Name of Computer
+PS1+="${style_chars} in"
 PS1+="${style_path} \w"                   # Working directory
 PS1+="\$(prompt_git)"                     # Git details
 PS1+="\n"                                 # Newline
@@ -121,11 +112,11 @@ PS1+="${style_chars} ∞ \[${RESET}\]"      # $ (and reset color)
 # Auto-delete merged git branches
 alias git_delete_merged="git branch --merged | grep -v '\*' | xargs -n 1 git branch -d"
 
-# Say "activated," then start a local rails server. Say "goodbye" on server stop.
-alias s="afplay ~/Documents/sounds/turret_activated.wav && rails s && afplay ~/Documents/sounds/turret_goodbye.wav"
+# Start a local rails server. 
+alias s="rails s"
 
-# Say "deploying," then deploy using Capistrano to production, then say "well done"
-alias cpd="afplay ~/Documents/sounds/turret_deploy.wav && cap production deploy && afplay ~/Documents/sounds/turret_welldone.wav"
+# Deploy via Capistrano
+alias cpd="cap production deploy"
 
 # Long git to show + ? !
 is_git_repo() {
