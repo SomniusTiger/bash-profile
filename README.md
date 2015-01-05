@@ -1,7 +1,7 @@
 bash-profile
 ============
 
-<img src="https://dl.dropboxusercontent.com/u/22285634/bash_profile.png" width="100%" />
+<img src="bash_profile.png" width="100%" />
 
 Custom .bash_profile which customizes how the terminal looks. It gives a simplistic readout of who and where you are when navigating around on your machine.
 
