@@ -88,10 +88,10 @@ fi
 
 # Styles for cmd prompt
 
-style_user="\[${RESET}${YELLOW}\]"
-style_box="\[${RESET}${ORANGE}\]"
-style_path="\[${RESET}${CYAN}\]"
-style_chars="\[${RESET}${WHITE}\]"
+style_user="${RESET}${YELLOW}"
+style_box="${RESET}${ORANGE}"
+style_path="${RESET}${CYAN}"
+style_chars="${RESET}${WHITE}"
 style_branch="${RED}"
 
 # Auto-complete git commands and branch names
@@ -100,14 +100,14 @@ source /Applications/Xcode.app/Contents/Developer/usr/share/git-core/git-prompt.
 GIT_PS1_SHOWDIRTYSTATE=true
 
 # Define how the prompt is styled. Colorizes the directory path & git branch, puts your commands on a new line
-PS1="${style_user} \u"                    # Username
+PS1="${style_user}\u"                    # Username
 PS1+="${style_chars} at"
 PS1+="${style_box} \h"                    # Name of Computer
 PS1+="${style_chars} in"
 PS1+="${style_path} \w"                   # Working directory
 PS1+="\$(prompt_git)"                     # Git details
 PS1+="\n"                                 # Newline
-PS1+="${style_chars} ∞ \[${RESET}\]"      # $ (and reset color)
+PS1+="${style_chars}∞ \[${RESET}\]"      # $ (and reset color)
 
 # Auto-delete merged git branches
 alias git_delete_merged="git branch --merged | grep -v '\*' | xargs -n 1 git branch -d"
