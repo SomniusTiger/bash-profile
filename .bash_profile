@@ -88,10 +88,10 @@ fi
 
 # Styles for cmd prompt
 
-style_user="${RESET}${YELLOW}"
-style_box="${RESET}${ORANGE}"
-style_path="${RESET}${CYAN}"
-style_chars="${RESET}${WHITE}"
+style_user="\[${RESET}${YELLOW}\]"
+style_box="\[${RESET}${ORANGE}\]"
+style_path="\[${RESET}${CYAN}\]"
+style_chars="\[${RESET}${WHITE}\]"
 style_branch="${RED}"
 
 # Auto-complete git commands and branch names
