@@ -1,5 +1,8 @@
 ## NIFTY OSX SHORTCUTS ##
 
+# Load API Keys. Super secret!
+source ~/.bash_keys
+
 # Open files from terminal with sublime
 export PATH=/bin:/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin:$PATH
 export EDITOR='subl'
